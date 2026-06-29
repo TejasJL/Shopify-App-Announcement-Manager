@@ -1,13 +1,17 @@
 name = "announcement-app"
 client_id = "bb3d6b0ead17ab318c0b0b9f40d19611"
-application_url = "https://almost-keys-guests-conflicts.trycloudflare.com"
+application_url = "https://shopify-app-announcement-manager.onrender.com"
 embedded = true
 
 [access_scopes]
 scopes = "write_metaobjects,read_metaobjects"
 
 [auth]
-redirect_urls = [" https://almost-keys-guests-conflicts.trycloudflare.com/auth/callback", " https://almost-keys-guests-conflicts.trycloudflare.com/auth/shopify/callback", " https://almost-keys-guests-conflicts.trycloudflare.com/exitiframe"]
+redirect_urls = [
+  "https://shopify-app-announcement-manager.onrender.com/auth/callback",
+  "https://shopify-app-announcement-manager.onrender.com/auth/shopify/callback",
+  "https://shopify-app-announcement-manager.onrender.com/exitiframe"
+]
 
 [webhooks]
 api_version = "2025-04"
