@@ -1,0 +1,128 @@
+{% comment %}
+  Shopify Theme App Extension — App Embed Block
+  File location in this project:
+  extensions/announcement-banner/blocks/announcement.liquid
+
+  HOW IT WORKS:
+  - Reads the announcement text from Shopify metafields
+  - The text was saved there by your Node.js backend
+  - Displays it as a fixed banner at the top of every storefront page
+{% endcomment %}
+
+{% assign announcement_text = shop.metafields.my_app.announcement %}
+
+{% if announcement_text != blank %}
+  <div
+    id="shopify-announcement-banner"
+    style="
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 9999;
+      background-color: {{ block.settings.background_color }};
+      color: {{ block.settings.text_color }};
+      text-align: center;
+      padding: 10px 50px;
+      font-size: {{ block.settings.font_size }}px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    "
+    role="banner"
+    aria-label="Store announcement"
+  >
+    {{ announcement_text }}
+
+    {% if block.settings.show_close_button %}
+      <button
+        onclick="
+          document.getElementById('shopify-announcement-banner').style.display='none';
+          document.body.style.marginTop='0px';
+          try { sessionStorage.setItem('ann-closed','1'); } catch(e) {}
+        "
+        style="
+          position: absolute;
+          right: 16px;
+          top: 50%;
+          transform: translateY(-50%);
+          background: none;
+          border: none;
+          color: inherit;
+          cursor: pointer;
+          font-size: 20px;
+          line-height: 1;
+          opacity: 0.8;
+          padding: 4px 8px;
+        "
+        aria-label="Close announcement"
+      >&times;</button>
+    {% endif %}
+  </div>
+
+  <style>
+    body {
+      margin-top: 44px !important;
+    }
+    @media (max-width: 768px) {
+      #shopify-announcement-banner {
+        font-size: {{ block.settings.font_size | minus: 2 }}px;
+        padding: 10px 40px;
+      }
+      body {
+        margin-top: 48px !important;
+      }
+    }
+  </style>
+
+  <script>
+    (function() {
+      try {
+        if (sessionStorage.getItem('ann-closed') === '1') {
+          var b = document.getElementById('shopify-announcement-banner');
+          if (b) {
+            b.style.display = 'none';
+            document.body.style.marginTop = '0px';
+          }
+        }
+      } catch(e) {}
+    })();
+  </script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Announcement Banner",
+  "target": "body",
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Banner background color",
+      "default": "#1a1a2e"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Banner text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Font size (px)",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "default": 14
+    },
+    {
+      "type": "checkbox",
+      "id": "show_close_button",
+      "label": "Show close (X) button",
+      "default": true
+    }
+  ]
+}
+{% endschema %}
