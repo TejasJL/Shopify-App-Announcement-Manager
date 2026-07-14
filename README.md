@@ -85,7 +85,7 @@ Storefront Banner (every page)
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/YOUR_USERNAME/announcement-app.git
+git clone https://github.com/TejasJL/Shopify-App-Announcement-Manager
 cd announcement-app
 ```
 
